@@ -2,7 +2,7 @@
 # src/user_manager.py
 import sqlite3
 
-DATABASE = 'src/expense_tracker.db'
+DATABASE = 'Fintrack/expense_tracker.db'
 
 def create_users_table():
     with sqlite3.connect(DATABASE) as conn:
