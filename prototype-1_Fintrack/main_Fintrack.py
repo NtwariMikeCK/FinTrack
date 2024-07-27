@@ -76,7 +76,7 @@ class FinTrackApp:
 
     def get_recommendations(self):
         """Provides financial recommendations based  preferences or  on tracked expenses."""
-        # Run the 3-fintrack.py script
+        # Run the 3-fintrack.py script file
         os.system('python3 3-fintrack.py')
 
     def view_expenses(self):
