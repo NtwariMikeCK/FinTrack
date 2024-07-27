@@ -60,7 +60,7 @@ class FinTrackApp:
         """Tracks an expense by storing it in the database."""
         date = input("Enter the date (YYYY-MM-DD): ")
         category = input("Enter the category of the expense: ")
-        amount = float(input("Enter the amount: "))
+        amount = float(input("Enter the amount spent: "))
         description = input("Enter a description (optional): ")
 
         conn = sqlite3.connect(self.db_name)
