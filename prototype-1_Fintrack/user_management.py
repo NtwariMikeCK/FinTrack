@@ -19,7 +19,7 @@ from tabulate import tabulate
 USER_FILE = 'user_details.txt'
 
 def add_user(name, email, financial_status, lifestyle):
-    """Adds a new user to the user details file."""
+    """Adds a new user to the user details files."""
     with open(USER_FILE, 'a') as file:
         file.write(f"{name},{email},{financial_status},{lifestyle}\n")
     print("User added successfully!")
