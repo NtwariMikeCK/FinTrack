@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 """
-o-fintrack.py
+0-fintrack.py
 
 A Python script for user registration and login to a website using an SQLite database.
 It handles user input, validates it, hashes passwords for security, and stores user information in the database.
@@ -144,7 +144,7 @@ class UserRegistration:
             return False
 
 def main():
-    """Main function to handle user input for registration or login."""
+    """Main functions to handle user input for registration or login."""
     user_registration = UserRegistration()
 
     print("Welcome to the User Registration and Login System")
