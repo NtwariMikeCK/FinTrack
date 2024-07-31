@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import mysql.connector
 from mysql.connector import errorcode
 from registration import create_connection, register_user, list_users, check
