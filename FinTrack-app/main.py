@@ -1,9 +1,9 @@
-#!/usr/bin/python3
 import mysql.connector
 from mysql.connector import errorcode
-from registration import create_connection, register_user, check_user, list_users
+from registration import create_connection, register_user, list_users, check
 from expense_tracker import spending, create_budget_plan, add_expenses
 from datetime import datetime
+from recommender import recommendation
 
 
 def main():
@@ -36,26 +36,24 @@ def main():
             try:
                 register_user(email, fullname, age, livingplace)
                 print(f"User {fullname} registered successfully!")
-                # app_menu(tracker)
                 app_menu()
             except mysql.IntegrityError:
                 print(f"Username {fullname} is already taken. Please choose a different username.")
         elif choice == "2":
             email = input("Enter email: ")
             fullname = input("Enter username: ")
-            # user = check_user(email, fullname)
-            users = list_users()
+            users = check()
             for user in users:
-                if user == email:
+                if user in email:
                     print("Welcome back to FinTrack")
                     app_menu()
+                # elif user not in email:
+                #     print("User not found")
                 else:
-                  print("User not found. Please register first.")
+                    print("good")
         elif choice == "3":
-            users = list_users()
             print("Registered Users:")
-            for user in users:
-              print(f"- {user}")
+            list_users()
         elif choice == "4":
             print("Logging out...............")
             break
@@ -78,13 +76,9 @@ def app_menu():
 
         if choice == "1":
             user_menu()
-
+            
         elif choice == "2":
-            pass
-            # recommender = Recommender()
-            # responses = recommender.ask_questions()
-            # recommendation = recommender.recommend(responses)
-            # print(recommendation)
+            recommend()
         elif choice == "3":
             print("Logging out.................")
             break
@@ -141,22 +135,160 @@ def user_menu():
             print(f'This is your remaning balance {remaining}')
         elif choice == "5":
             budget_id = int(input("Which budget plan will this count for, enter budget_id: "))
-            rate = spending(budget_id).spending_rate()
-            print(f'This is your spending rate {rate}')
+            rate = spending(budget_id).overall_spending()
+            print(f'This is your spending rate {spending(budget_id).current_spending_rate()}')
         elif choice == "6":
             budget_id = int(input("Which budget plan will this count for, enter budget_id: "))
             warning = spending(budget_id).budget_warning()
-            print(f'This is your total expense {warning}')
+            print(f'Warning message: {warning}')
         elif choice == "7":
             budget_id = int(input("Which budget plan will this count for, enter budget_id: "))
-            summary = spending(budget_id).spending_summary()
-            print(f'This is your total expense {summary}')
+            print(f'This is the summary of your spending for budget {budget_id}')
+            summary = spending(budget_id).summary()
+            print(summary)
         elif choice == "8":
             print("Logging out...")
             break
         else:
             print("Invalid choice. Please try again.")
 
+
+
+# def recommend():
+    while True:
+        print("\nUser Menu:")
+        print("---------------------------------------------------------------")
+        print("---------------------------------------------------------------")
+        print("1. Enter 1 to play a game to help us know about your spending habits")
+        print("2. Logout")
+        print("---------------------------------------------------------------")
+        print("---------------------------------------------------------------")
+
+
+        choice = input("Choose an option: ")
+
+        if choice == "1":
+            question1 = input("Do you prefer 'quality' or quantity': ")
+            question2 = input("Do you care about brand names, 'yes' or 'no': ")
+            question3 = input("Do you tend to bargain about price, 'yes' or 'no': ")
+            question4 = input("Do you follow a budget plan, 'yes' or 'no': ")
+            
+            if question1 == "quality" and question2 == "yes" and question3 == "yes":
+                spending_status = "moderate"
+                spending_categories = input("What do you want to buy 'clothes', 'groceries', 'dine out': ")
+                return spending_status, spending_categories
+            
+            elif question1 == "quality" and question2 == "no" and question3 == "no":
+                spending_status = "moderate"
+                spending_categories = input("What do you want to buy 'clothes', 'groceries', 'dine out': ")
+                return spending_status, spending_categories
+            
+            elif question1 == "quality" and question2 == "yes" and question3 == "no":
+                spending_status = "Expensive"
+                spending_categories = input("What do you want to buy 'clothes', 'groceries', 'dine out': ")
+                return spending_status, spending_categories
+               
+            elif question1 == "quality" and question2 == "no" and question3 == "yes":
+                spending_status = "Cheap"
+                spending_categories = input("What do you want to buy 'clothes', 'groceries', 'dine out': ")
+                return spending_status, spending_categories
+               
+            
+            if question1 == "quantity" and question2 == "yes" and question3 == "yes":
+                spending_status = "moderate"
+                spending_categories = input("What do you want to buy 'clothes', 'groceries', 'dine out': ")
+                return spending_status, spending_categories
+               
+            elif question1 == "quantity" and question2 == "no" and question3 == "no":
+                spending_status = "moderate"
+                spending_categories = input("What do you want to buy 'clothes', 'groceries', 'dine out': ")
+                return spending_status, spending_categories
+               
+            elif question1 == "quantity" and question2 == "yes" and question3 == "no":
+                spending_status = "Expensive"
+                spending_categories = input("What do you want to buy 'clothes', 'groceries', 'dine out': ")
+                return spending_status, spending_categories
+             
+            elif question1 == "quantity" and question2 == "no" and question3 == "yes":
+                spending_status = "Cheap"
+                spending_categories = input("What do you want to buy 'clothes', 'groceries', 'dine out': ")
+                return spending_status, spending_categories
+        
+        elif choice == "2":
+            print("Logging out...")
+            break  
+  
+def recommend():
+    while True:
+        print("\nUser Menu:")
+        print("---------------------------------------------------------------")
+        print("---------------------------------------------------------------")
+        print("1. Enter 1 to play a game to help us know about your spending habits")
+        print("2. Logout")
+        print("---------------------------------------------------------------")
+        print("---------------------------------------------------------------")
+
+
+        choice = input("Choose an option: ")
+
+        if choice == "1":
+            question1 = input("Do you prefer 'quality' or quantity': ")
+            question2 = input("Do you care about brand names, 'yes' or 'no': ")
+            question3 = input("Do you tend to bargain about price, 'yes' or 'no': ")
+            question4 = input("Do you follow a budget plan, 'yes' or 'no': ")
+            
+            if question1 == "quality" and question2 == "yes" and question3 == "yes":
+                spending_status = "moderate"
+                spending_categories = input("What do you want to buy 'clothes', 'groceries', 'dine out': ")
+                result = recommendation(spending_status, spending_categories).retrieve_data()
+                print(result)
+            
+            elif question1 == "quality" and question2 == "no" and question3 == "no":
+                spending_status = "moderate"
+                spending_categories = input("What do you want to buy 'clothes', 'groceries', 'dine out': ")
+                result = recommendation(spending_status, spending_categories).retrieve_data()
+                print(result)
+            
+            elif question1 == "quality" and question2 == "yes" and question3 == "no":
+                spending_status = "Expensive"
+                spending_categories = input("What do you want to buy 'clothes', 'groceries', 'dine out': ")
+                result = recommendation(spending_status, spending_categories).retrieve_data()
+                print(result)
+               
+            elif question1 == "quality" and question2 == "no" and question3 == "yes":
+                spending_status = "Cheap"
+                spending_categories = input("What do you want to buy 'clothes', 'groceries', 'dine out': ")
+                result = recommendation(spending_status, spending_categories).retrieve_data()
+                print(result)
+               
+            
+            if question1 == "quantity" and question2 == "yes" and question3 == "yes":
+                spending_status = "moderate"
+                spending_categories = input("What do you want to buy 'clothes', 'groceries', 'dine out': ")
+                result = recommendation(spending_status, spending_categories).retrieve_data()
+                print(result)
+               
+            elif question1 == "quantity" and question2 == "no" and question3 == "no":
+                spending_status = "moderate"
+                spending_categories = input("What do you want to buy 'clothes', 'groceries', 'dine out': ")
+                result = recommendation(spending_status, spending_categories).retrieve_data()
+                print(result)
+               
+            elif question1 == "quantity" and question2 == "yes" and question3 == "no":
+                spending_status = "Expensive"
+                spending_categories = input("What do you want to buy 'clothes', 'groceries', 'dine out': ")
+                result = recommendation(spending_status, spending_categories).retrieve_data()
+                print(result)
+             
+            elif question1 == "quantity" and question2 == "no" and question3 == "yes":
+                spending_status = "Cheap"
+                spending_categories = input("What do you want to buy 'clothes', 'groceries', 'dine out': ")
+                result = recommendation(spending_status, spending_categories).retrieve_data()
+                print(result)
+        
+        elif choice == "2":
+            print("Logging out...")
+            break  
 
 if __name__ == "__main__":
     main()
