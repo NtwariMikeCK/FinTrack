@@ -4,7 +4,7 @@ import mysql.connector
 from mysql.connector import errorcode
 
 DB_HOST = 'localhost'
-DB_USER = 'root'
+DB_USER = 'remote-user'
 DB_PASSWORD = 'RutaGandA95'
 DB_NAME = 'fintrack'
 
@@ -16,10 +16,10 @@ def create_connection():
             password=DB_PASSWORD,
             database=DB_NAME
         )
-        return conn
-        # if conn.is_connected():
-        #     # print('Query Executed Successfully')
         # return conn
+        if conn.is_connected():
+            print('Query Executed Successfully')
+        return conn
     except mysql.connector.Error as err:
         if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
             print("Something is wrong with your user name or password")
@@ -67,3 +67,8 @@ def list_users():
     headers = ["Email", "Full name", "Age", "Living place"]
     table = tabulate(result, headers, tablefmt="pretty")
     print(table)
+
+
+
+if __name__ == "__main__":
+    create_connection()
