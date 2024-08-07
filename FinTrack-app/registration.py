@@ -4,7 +4,7 @@ import mysql.connector
 from mysql.connector import errorcode
 
 DB_HOST = 'localhost'
-DB_USER = 'root'
+DB_USER = 'remote-user'
 DB_PASSWORD = 'RutaGandA95'
 DB_NAME = 'fintrack'
 
